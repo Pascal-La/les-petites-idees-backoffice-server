@@ -5,14 +5,14 @@ const ideaModel = mongoose.Schema(
     logo: {
       type: String,
       default:
-        "https://cdn-icons.flaticon.com/png/512/186/premium/186225.png?token=exp=1646216368~hmac=ea11b331590702874095a62e5628a164",
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     name: { type: String, required: true, unique: true },
     webSite: { type: String, required: true, unique: true },
     description: { type: String, required: true },
-    tags: { type: String },
-    access: { type: String, required: true },
-    language: { type: String, required: true },
+    tags: { type: [String], uppercase: true },
+    access: { type: [String], uppercase: true, required: true },
+    language: { type: [String], uppercase: true, required: true },
     star: { type: Boolean, required: true },
   },
   {
