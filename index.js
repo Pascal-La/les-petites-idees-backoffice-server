@@ -17,7 +17,11 @@ app.use(
   })
 );
 
-app.use(express.json());
+// limit size of uploaded picture (need this to avoid "PayloadTooLargeError")
+app.use(express.json({ limit: "1000kb" }));
+app.use(express.urlencoded({ limit: "1000kb" }));
+
+app.use(express.json()); // req.body, to accept JSON Data
 
 app.use("/api/users", userRoutes);
 app.use("/api/ideas", ideaRoutes);

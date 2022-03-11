@@ -6,13 +6,15 @@ const User = require("../models/userModel");
 //* ========================= REGISTER USER =========================
 
 const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, firstname, lastname, password } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email,
+      firstname,
+      lastname,
       password: hashedPassword,
     });
 
@@ -20,10 +22,14 @@ const registerUser = async (req, res) => {
       res.status(201).json({
         _id: user._id,
         email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
         token: jwt.sign(
           {
             _id: user._id,
             email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
           },
           process.env.JWT_SECRET,
           {
@@ -41,7 +47,7 @@ const registerUser = async (req, res) => {
 //* ========================= LOGIN USER =========================
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, firstname, lastname, password } = req.body;
 
   try {
     const user = await User.findOne({
@@ -60,10 +66,14 @@ const loginUser = async (req, res) => {
       res.status(200).json({
         _id: user._id,
         email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
         token: jwt.sign(
           {
             _id: user._id,
             email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
           },
           process.env.JWT_SECRET,
           {

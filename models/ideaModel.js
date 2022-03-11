@@ -10,9 +10,9 @@ const ideaModel = mongoose.Schema(
     name: { type: String, required: true, unique: true },
     webSite: { type: String, required: true, unique: true },
     description: { type: String, required: true },
-    tags: { type: [String], uppercase: true },
-    access: { type: [String], uppercase: true, required: true },
-    language: { type: [String], uppercase: true, required: true },
+    tags: { type: [String] },
+    access: { type: [String], required: true },
+    language: { type: [String], required: true },
     star: { type: Boolean, required: true },
   },
   {
