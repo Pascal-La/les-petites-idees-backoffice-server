@@ -7,8 +7,8 @@ const getAllIdeas = async (req, res) => {
     const ideas = await Idea.find();
     res.status(200).json(ideas);
   } catch (error) {
+    console.log("La récupération des idées a échouée.");
     res.status(400);
-    throw new Error(error.message);
   }
 };
 
@@ -41,8 +41,8 @@ const getOneIdea = async (req, res) => {
     const idea = await Idea.findOne({ _id: ideaId });
     res.status(200).json(idea);
   } catch (error) {
+    console.log("La récupération de l'idée a échouée.");
     res.status(400);
-    throw new Error(error);
   }
 };
 
@@ -55,13 +55,13 @@ const addNewIdea = async (req, res) => {
   try {
     const nameExists = await Idea.findOne({ name });
     if (nameExists) {
-      console.log("Le nom existe déjà!");
+      console.log("Ce nom existe déjà!");
       return res.sendStatus(400);
     }
 
     const webSiteExists = await Idea.findOne({ webSite });
     if (webSiteExists) {
-      console.log("Le site existe déjà!");
+      console.log("Ce site existe déjà!");
       return res.sendStatus(400);
     }
 
@@ -103,10 +103,10 @@ const addNewIdea = async (req, res) => {
         language: idea.language,
         star: idea.star,
       });
-    } else throw new Error("La création de l'idée a échoué!");
+    } else console.log("La création de l'idée a échouée.");
   } catch (error) {
+    console.log("Création de l'idée impossible.");
     res.status(400);
-    throw new Error(error.message);
   }
 };
 
@@ -128,17 +128,8 @@ const updateIdea = async (req, res) => {
     access.length === 0 ||
     language.length === 0
   ) {
+    console.log("Tous les champs sont requis!");
     res.status(400);
-    throw new Error("Tous les champs sont requis!");
-  }
-
-  if (
-    name.trim() === "" ||
-    webSite.trim() === "" ||
-    description.trim() === ""
-  ) {
-    res.status(400);
-    throw new Error("Tous les champs sont requis!");
   }
 
   try {
@@ -171,8 +162,8 @@ const updateIdea = async (req, res) => {
       });
     } else res.status(400).json(error.message);
   } catch (error) {
+    console.log("La modification de l'idée a échouée.");
     res.status(400);
-    throw new Error(error.message);
   }
 };
 

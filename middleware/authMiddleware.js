@@ -15,13 +15,13 @@ const protected = async (req, res, next) => {
       req.user = await User.findById(decodedToken._id).select("-password");
       next();
     } catch (error) {
+      console.log("Non autorisé, le token a échoué");
       res.status(401);
-      throw new Error("Non autorisé, le token a échoué");
     }
   }
   if (!token) {
+    console.log("Non autorisé, pas de token");
     res.status(401);
-    throw new Error("Non autorisé, pas de token");
   }
 };
 

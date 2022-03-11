@@ -37,30 +37,30 @@ const registerUser = async (req, res) => {
           }
         ),
       });
-    } else throw new Error("La création de compte a échouée.");
+    } else console.log("La création de compte a échouée.");
   } catch (error) {
+    console.log("Création de compte impossible.");
     res.status(400);
-    throw new Error("La création de compte a échouée.");
   }
 };
 
 //* ========================= LOGIN USER =========================
 
 const loginUser = async (req, res) => {
-  const { email, firstname, lastname, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await User.findOne({
       email,
     });
 
-    if (!user) errors.email = "Compte introuvable";
+    if (!user) console.log("Compte introuvable");
 
     if (password.trim() === "")
-      throw new Error("Le mot de passe ne doit pas être vide");
+      console.log("Le mot de passe ne doit pas être vide");
 
     const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) throw new Error("Mot de passe incorrect.");
+    if (!validPassword) console.log("Mot de passe incorrect.");
 
     if (user && validPassword) {
       res.status(200).json({
@@ -81,10 +81,10 @@ const loginUser = async (req, res) => {
           }
         ),
       });
-    } else throw new Error("La connexion a échouée.");
+    } else console.log("La connexion au compte a échouée.");
   } catch {
+    console.log("Connexion au compte impossible.");
     res.status(400);
-    throw new Error("La connexion a échouée.");
   }
 };
 
