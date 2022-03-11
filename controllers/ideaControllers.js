@@ -72,9 +72,9 @@ const addNewIdea = async (req, res) => {
       webSite.trim() === "" ||
       !description ||
       description.trim() === "" ||
-      tags.length === 0 ||
-      access.length === 0 ||
-      language.length === 0
+      tags.length < 1 ||
+      access.length < 1 ||
+      language.length < 1
     ) {
       console.log("Tous les champs sont requis!");
       return res.sendStatus(400);
@@ -124,12 +124,12 @@ const updateIdea = async (req, res) => {
     webSite.trim() === "" ||
     !description ||
     description.trim() === "" ||
-    tags.length === 0 ||
-    access.length === 0 ||
-    language.length === 0
+    tags.length < 1 ||
+    access.length < 1 ||
+    language.length < 1
   ) {
     console.log("Tous les champs sont requis!");
-    res.status(400);
+    return res.sendStatus(400);
   }
 
   try {
