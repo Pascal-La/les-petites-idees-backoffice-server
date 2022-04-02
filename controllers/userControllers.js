@@ -48,19 +48,24 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  let validPassword = null;
 
   try {
+    if (email.trim() === "")
+      res.status(400).send("L'email ne doit pas être vide");
+
+    if (password.trim() === "")
+      res.status(400).send("Le mot de passe ne doit pas être vide");
+
     const user = await User.findOne({
       email,
     });
 
-    if (!user) console.log("Compte introuvable");
-
-    if (password.trim() === "")
-      console.log("Le mot de passe ne doit pas être vide");
-
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) console.log("Mot de passe incorrect.");
+    if (!user) res.status(400).send("Compte introuvable");
+    if (user) {
+      validPassword = await bcrypt.compare(password, user.password);
+      if (!validPassword) res.status(400).send("Mot de passe incorrect.");
+    }
 
     if (user && validPassword) {
       res.status(200).json({
@@ -81,8 +86,8 @@ const loginUser = async (req, res) => {
           }
         ),
       });
-    } else console.log("La connexion au compte a échouée.");
-  } catch {
+    } else res.status(400).send("La connexion au compte a échoué.");
+  } catch (error) {
     console.log("Connexion au compte impossible.");
     res.status(400);
   }

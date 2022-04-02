@@ -13,6 +13,7 @@ const protected = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       req.user = await User.findById(decodedToken._id).select("-password");
+      console.log(`Autorisé, token : ${token}`);
       next();
     } catch (error) {
       console.log("Non autorisé, le token a échoué");
